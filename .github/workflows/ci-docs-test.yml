@@ -3,6 +3,7 @@ name: OneClickDocs-Install
 run-name: Install Docs on pure environment
 
 on:
+  push: 
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore:
@@ -79,6 +80,10 @@ jobs:
             os: ubuntu2204
             name: "Ubuntu 22.04"
 
+          - distr: alvistack
+            os: ubuntu-24.04
+            name: "Ubuntu 24.04"
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -90,11 +95,14 @@ jobs:
 
     - name: Set up vagrant and virtualbox
       run: |
-           sudo apt update -y 
-           sudo apt install vagrant virtualbox -y
+          set -eux
+          sudo wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          sudo echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update -y
+          sudo apt install vagrant virtualbox -y
 
     - name: Test production scripts
-      if: ${{ github.event_name == 'schedule' }}
+      if: ${{ github.event_name == 'push' }}
       uses: nick-fields/retry@v2
       with:
         max_attempts: 2
