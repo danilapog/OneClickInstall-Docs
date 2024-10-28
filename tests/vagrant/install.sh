@@ -111,7 +111,7 @@ function prepare_vm() {
 	    echo "deb [trusted=yes] https://s3.eu-west-1.amazonaws.com/repo-doc-onlyoffice-com/repo/debian stable ${VER}" | sudo tee /etc/apt/sources.list.d/onlyoffice-dev.list
 	fi
 
-  	apt-get remove postfix -y 
+  	apt-get remove postfix -y || true
   	echo "${COLOR_GREEN}☑ PREPAVE_VM: Postfix was removed${COLOR_RESET}"
   fi
 
