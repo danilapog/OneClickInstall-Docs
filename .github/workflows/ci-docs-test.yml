@@ -30,7 +30,8 @@ jobs:
           if curl -s -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/ONLYOFFICE/document-server-package/branches | jq -r '.[].name' | grep -qE '^release/'; then
             VERSION=$(curl -s -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/ONLYOFFICE/document-server-package/branches | jq -r '.[] | select(.name|test("^release/")) | .name' | awk -F '/v' '{print $2}')  
           else
-            #VERSION=$(curl -s -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/ONLYOFFICE/document-server-package/branches | jq -r '.[] | select(.name|test("^hotfix/")) | .name' | awk -F '/v' '{print $2}')
+            VERSION_TEST=$(curl -s -L -H "Accept: application/vnd.github+json" https://api.github.com/repos/ONLYOFFICE/document-server-package/branches | jq -r '.[] | select(.name|test("^hotfix/")) | .name' | awk -F '/v' '{print $2}')
+            echo ${VERSION_TEST}
             VERSION="8.2.1"
           fi
           echo "ds-ver=${VERSION:-99.99.99}" >> "$GITHUB_OUTPUT"
@@ -97,9 +98,7 @@ jobs:
     - name: Set up vagrant and virtualbox
       run: |
           set -eux
-          sudo wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          sudo echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt update -y
+          sudo apt update -y 
           sudo apt install vagrant virtualbox -y
 
     - name: Test production scripts
