@@ -1,6 +1,6 @@
-name: OneClickDocs-Install
+name: Rebuild vagrant Docs
 
-run-name: Install Docs on pure environment
+run-name: "Rebuild boxes ${{ github.event.inputs.box-version }}
 
 on:
   workflow_dispatch:
@@ -11,16 +11,6 @@ on:
          required: true
          
 jobs:
-  get-version:
-    name: "Get ds version for test"
-    runs-on: ubuntu-latest
-    steps:
-    - name: get-version
-      id: get-version
-      shell: bash
-      run: |
-          echo 1
-
   vagrant-up:
     name: "Rebbuild Docs ${{matrix.name}}"
     runs-on: ubuntu-latest
