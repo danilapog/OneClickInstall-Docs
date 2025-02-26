@@ -286,6 +286,7 @@ function healthcheck_curl {
 }
 
 main() {
+  cat /etc/os-release
   common::get_colors
   prepare_vm
   check_hw
