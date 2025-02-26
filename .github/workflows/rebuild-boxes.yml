@@ -18,7 +18,7 @@ jobs:
       HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
       HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
       BOX_VERSION: ${{ github.event.inputs.box-version }}
-      VAGRANT_ORG: danilapog
+      VAGRANT_ORG: unclebob
       PRODUCT: docs
       OS_NAME: ${{ matrix.name }}
       OS: ${{ matrix.os }}
