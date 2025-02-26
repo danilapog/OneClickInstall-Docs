@@ -76,6 +76,11 @@ jobs:
       with:
         python-version: '3.x'
 
+    - name: 'Download hcp CLI'
+      uses: 'hashicorp/hcp-setup-action@v0'
+      with:
+        version: 'latest'
+
     - name: Set up vagrant and virtualbox
       run: |
            curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
