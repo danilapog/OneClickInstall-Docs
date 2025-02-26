@@ -286,6 +286,8 @@ function healthcheck_curl {
 }
 
 main() {
+  df -h 
+  lsblk
   cat /etc/os-release
   common::get_colors
   prepare_vm
