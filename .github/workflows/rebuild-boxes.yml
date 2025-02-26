@@ -4,7 +4,12 @@ run-name: Install Docs on pure environment
 
 on:
   workflow_dispatch:
-    
+    inputs:
+      box-version:
+         type: string
+         description: 'Docs version that will be installed inside box'
+         required: true
+         
 jobs:
   get-version:
     name: "Get ds version for test"
@@ -17,11 +22,17 @@ jobs:
           echo 1
 
   vagrant-up:
-    name: "Test Docs with ${{matrix.name}}"
-    needs: [get-version]
+    name: "Rebbuild Docs ${{matrix.name}}"
     runs-on: ubuntu-latest
     env:
-      VER: ${{ needs.get-version.outputs.ds-ver }}
+      HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
+      HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
+      BOX_VERSION: ${{ github.event.inputs.box-version }}
+      VAGRANT_ORG: danilapog
+      PRODUCT: docs
+      OS_NAME: ${{ matrix.name }}
+      OS: ${{ matrix.os }}
+      DISTR: ${{ matrix.distr }}
     strategy:
       fail-fast: false
       matrix:
@@ -100,6 +111,9 @@ jobs:
                    CPU='3' \
                    ARGUMENTS="-arg '--skiphardwarecheck true --makeswap false'" \
                    vagrant up
+                   sleep 100
+                   vagrant package --output ${PRODUCT}-${OS_NAME}.box
+                   bash ./publish.sh
         on_retry_command: |
               echo "RUN CLEAN UP: Destroy vagrant and one more try"
               cd tests/vagrant
