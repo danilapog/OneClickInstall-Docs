@@ -9,8 +9,6 @@ jobs:
   get-version:
     name: "Get ds version for test"
     runs-on: ubuntu-latest
-    outputs:
-      ds-ver: ${{ steps.get-version.outputs.ds-ver }}
     steps:
     - name: get-version
       id: get-version
