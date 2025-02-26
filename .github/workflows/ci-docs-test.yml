@@ -32,22 +32,38 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:          
+        include:
+          - distr: unclebob
+            os: centos7
+            name: "centos7"
+
+          - distr: unclebob
+            os: centos8s
+            name: "centos8s"
+            
           - distr: unclebob
             os: centos9s
             name: "centos9s"
 
           - distr: unclebob
+            os: debian10
+            name: "debian10"
+
+          - distr: unclebob
+            os: debian11
+            name: "debian11" 
+            
+          - distr: unclebob
             os: debian12
             name: "debian12"         
 
           - distr: unclebob
-            os: fedora40
-            name: "fedora40"               
+            os: ubuntu1804
+            name: "ubuntu1804"               
 
           - distr: unclebob
-            os: fedora41
-            name: "fedora41"
+            os: ubuntu2004
+            name: "ubuntu2004"
 
           - distr: unclebob
             os: ubuntu2204
