@@ -5,10 +5,6 @@ run-name: "Rebuild boxes ${{ github.event.inputs.box-version }}"
 on:
   workflow_dispatch:
     inputs:
-      box-version:
-         type: string
-         description: 'Docs version that will be installed inside box'
-         required: true
       centos7:
          type: boolean
          description: 'CentOS 7'
@@ -84,7 +80,7 @@ jobs:
     env:
       HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
       HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
-      BOX_VERSION: ${{ github.event.inputs.box-version }}
+      BOX_VERSION: 1.0.1
       VAGRANT_ORG: unclebob
       PRODUCT: docs
       OS_NAME: ${{ matrix.name }}
