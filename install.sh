@@ -899,6 +899,21 @@ remove_container () {
     fi
 }
 
+check_dockerhub_limits() {
+    TEST_IMAGE="hello-world"
+    OUTPUT=$(docker pull ${TEST_IMAGE}:latest 2>&1) || true
+
+    if echo "$OUTPUT" | grep -qi "toomanyrequests"; then
+        echo "DockerHub pull limit reached. Please log in to continue."
+        read -rp "Enter DockerHub username: " USERNAME
+        read -s -rp "Enter DockerHub password: " PASSWORD
+        echo
+        docker_login
+    fi
+
+    docker rmi ${TEST_IMAGE}:latest --force >/dev/null 2>&1 || true
+}
+
 pull_document_server () {
     if file_exists "${DOCUMENT_IMAGE_NAME}"; then
         docker load -i ${DOCUMENT_IMAGE_NAME}
@@ -930,6 +945,7 @@ pull_image () {
     COUNT=1
 
     while [[ -z $EXIST && $COUNT -le 3 ]]; do
+        check_dockerhub_limits
         docker pull ${IMAGE_NAME}:${IMAGE_VERSION}
         EXIST=$(docker images | grep "$IMAGE_NAME" | awk '{print $2;}' | { grep -x "$IMAGE_VERSION" || true; })
         (( COUNT++ ))
