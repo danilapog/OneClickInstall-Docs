@@ -543,7 +543,7 @@ install_docker () {
 
 docker_login () {
     if [[ -n ${USERNAME} && -n ${PASSWORD}  ]]; then
-        docker login ${HUB} --username ${USERNAME} --password ${PASSWORD}
+        echo "${PASSWORD}" | docker login "${HUB}" --username "${USERNAME}" --password-stdin
     fi
 }
 
