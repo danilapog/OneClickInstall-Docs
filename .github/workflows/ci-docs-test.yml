@@ -3,7 +3,7 @@ name: OneClickDocs-Install
 run-name: Install Docs on pure environment
 
 on:
-  workflow_dispatch: 
+  push: 
 
 jobs:
   vagrant-up:
